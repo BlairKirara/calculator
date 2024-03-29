@@ -1,5 +1,7 @@
 body {
     background-image: url("wall.png");
+    cursor: url('paw2.png'), auto;
+
 }
 
 button {
@@ -76,7 +78,9 @@ button {
     justify-content: center;
 }
 
-button:hover {background-color: #c7128b}
+button:hover {
+    background-color: #c7128b;
+    cursor: url("paw1.png"), auto;}
 button:active {
     background-color: #c7128b;
     box-shadow: 0 5px #666;

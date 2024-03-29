@@ -273,4 +273,5 @@ cleBtn.addEventListener("click", () => {
     firstNumber = 0;
     secondNumber = 0;
     displayValue = 0;
+    counter = 0;
 })
