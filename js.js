@@ -67,6 +67,8 @@ const btn6 = document.getElementById("btn6");
 const btn7 = document.getElementById("btn7");
 const btn8 = document.getElementById("btn8");
 const btn9 = document.getElementById("btn9");
+const btnDec = document.getElementById(".");
+
 
 function displayNum(num){
     if(isItAProduct){
@@ -123,7 +125,13 @@ const subBtn = document.getElementById("-");
 const devBtn = document.getElementById("/");
 const mulBtn = document.getElementById("*");
 const equBtn = document.getElementById("=");
+const delBtn = document.getElementById("delete");
 const cleBtn = document.getElementById("clear");
+
+delBtn.addEventListener("click", () => {
+    display.innerText = display.innerText.slice(0, -1);
+    displayValue = parseInt(display.innerText);
+})
 
 addBtn.addEventListener("click", () => {
     display.innerText = '';
