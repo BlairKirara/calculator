@@ -16,6 +16,10 @@ function substract(a, b){
 }
 
 function divide(a, b){
+    if(b===0){
+        alert("You can't devide by 0!");
+        return a;
+    }
     return Math.round((a/b) * 100) / 100;
 }
 
@@ -53,6 +57,7 @@ function operate(operator, firstNumber, secondNumber){
 
 }
 
+const btn0 = document.getElementById("btn0");
 const btn1 = document.getElementById("btn1");
 const btn2 = document.getElementById("btn2");
 const btn3 = document.getElementById("btn3");
@@ -72,6 +77,10 @@ function displayNum(num){
     display.innerText += num;
     displayValue = parseInt(display.innerText);
 }
+
+btn0.addEventListener("click", () => {
+    displayNum(0);
+})
 
 btn1.addEventListener("click", () => {
     displayNum(1);
