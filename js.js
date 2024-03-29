@@ -221,3 +221,12 @@ cleBtn.addEventListener("click", () => {
     firstNumber = 0;
     secondNumber = 0;
 })
+
+const audio = new Audio("meow.mp3");
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    audio.play();
+  });
+});
