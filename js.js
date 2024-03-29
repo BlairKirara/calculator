@@ -30,25 +30,25 @@ function multiply(a, b){
 function operate(operator, firstNumber, secondNumber){
     switch (operator){
         case '+':
-            displayValue = add(firstNumber, secondNumber);
+            displayValue = Math.round((add(firstNumber, secondNumber)) * 100) / 100;
             display.innerText = displayValue;
             //firstNumber = displayValue;
             isItAProduct = 1;
             break;
         case '-':
-            displayValue = substract(firstNumber, secondNumber);
+            displayValue = Math.round((substract(firstNumber, secondNumber)) * 100) / 100;
             display.innerText = displayValue;
             //firstNumber = displayValue;
             isItAProduct = 1;
             break;
         case '/':
-            displayValue = divide(firstNumber, secondNumber);
+            displayValue = Math.round((divide(firstNumber, secondNumber)) * 100) / 100;
             display.innerText = displayValue;
             //firstNumber = displayValue;
             isItAProduct = 1;
             break;
         case '*':
-            displayValue = multiply(firstNumber, secondNumber);
+            displayValue = Math.round((multiply(firstNumber, secondNumber)) * 100) / 100;
             display.innerText = displayValue;
             //firstNumber = displayValue;
             isItAProduct = 1;
@@ -77,8 +77,10 @@ function displayNum(num){
         isItAProduct = 0;
     }
     display.innerText += num;
-    displayValue = parseInt(display.innerText);
+    displayValue = parseFloat(display.innerText);
 }
+
+
 
 btn0.addEventListener("click", () => {
     displayNum(0);
@@ -120,6 +122,16 @@ btn9.addEventListener("click", () => {
     displayNum(9);
 })
 
+btnDec.addEventListener("click", () => {
+    if(!btnDec.disabled){
+        displayNum('.');
+        btnDec.disabled = true;
+    }
+    else{
+        return
+    }
+})
+
 const addBtn = document.getElementById("+");
 const subBtn = document.getElementById("-");
 const devBtn = document.getElementById("/");
@@ -130,10 +142,11 @@ const cleBtn = document.getElementById("clear");
 
 delBtn.addEventListener("click", () => {
     display.innerText = display.innerText.slice(0, -1);
-    displayValue = parseInt(display.innerText);
+    displayValue = parseFloat(display.innerText);
 })
 
 addBtn.addEventListener("click", () => {
+    btnDec.disabled = false;
     display.innerText = '';
     if(operator!='+' && counter>0){
         secondNumber = displayValue;
@@ -154,6 +167,7 @@ addBtn.addEventListener("click", () => {
 
 subBtn.addEventListener("click", () => {
     display.innerText = '';
+    btnDec.disabled = false;
     if(operator!='-' && counter>0){
         secondNumber = displayValue;
         operate(operator, firstNumber, secondNumber);
@@ -220,6 +234,7 @@ cleBtn.addEventListener("click", () => {
     operator = '';
     firstNumber = 0;
     secondNumber = 0;
+    displayValue = 0;
 })
 
 const audio = new Audio("meow.mp3");
