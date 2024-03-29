@@ -53,6 +53,8 @@ function operate(operator, firstNumber, secondNumber){
             //firstNumber = displayValue;
             isItAProduct = 1;
             break;
+        case '=':
+            break;
     }
 
 }
@@ -226,6 +228,7 @@ mulBtn.addEventListener("click", () => {
 equBtn.addEventListener("click", () => {
     secondNumber = displayValue;
     operate(operator, firstNumber, secondNumber);
+    operator = '=';
     counter = 0;
 })
 
