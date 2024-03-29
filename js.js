@@ -71,6 +71,7 @@ const btnDec = document.getElementById(".");
 
 
 function displayNum(num){
+    equBtn.disabled = false;
     if(isItAProduct){
         display.innerText = '';
         firstNumber = displayValue;
@@ -226,7 +227,7 @@ mulBtn.addEventListener("click", () => {
 equBtn.addEventListener("click", () => {
     secondNumber = displayValue;
     operate(operator, firstNumber, secondNumber);
-    firstNumber = 0;
+    equBtn.disabled = true;
     counter = 0;
 })
 
