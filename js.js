@@ -160,6 +160,7 @@ delBtn.addEventListener("click", () => {
 addBtn.addEventListener("click", () => {
     btnDec.disabled = false;
     if(counter && firstNumber == lastFirst){
+        operator = '+';
         secondNumber = parseFloat(display.innerText);
         firstNumber = parseFloat(display.innerText);
         operate(operator, firstNumber, secondNumber);
@@ -185,6 +186,7 @@ addBtn.addEventListener("click", () => {
 subBtn.addEventListener("click", () => {
     btnDec.disabled = false;
     if(counter && firstNumber == lastFirst){
+        operator = '-';
         secondNumber = parseFloat(display.innerText);
         firstNumber = parseFloat(display.innerText);
         operate(operator, firstNumber, secondNumber);
@@ -211,6 +213,7 @@ subBtn.addEventListener("click", () => {
 devBtn.addEventListener("click", () => {
     btnDec.disabled = false;
     if(counter && firstNumber == lastFirst){
+        operator = '/';
         secondNumber = parseFloat(display.innerText);
         firstNumber = parseFloat(display.innerText);
         operate(operator, firstNumber, secondNumber);
@@ -237,6 +240,7 @@ devBtn.addEventListener("click", () => {
 mulBtn.addEventListener("click", () => {
     btnDec.disabled = false;
     if(counter && firstNumber == lastFirst){
+        operator = '*';
         secondNumber = parseFloat(display.innerText);
         firstNumber = parseFloat(display.innerText);
         operate(operator, firstNumber, secondNumber);
