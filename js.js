@@ -5,57 +5,16 @@ let display = document.querySelector(".display");
 let displayValue = 0;
 let counter = 0;
 let isItAProduct = 0;
+let lastFirst;
 
+const audio = new Audio("meow.mp3");
+const buttons = document.querySelectorAll("button");
 
-function add(a, b){
-    return a + b;
-}
-
-function substract(a, b){
-    return a - b;
-}
-
-function divide(a, b){
-    if(b===0){
-        alert("You can't devide by 0!");
-        return a;
-    }
-    return Math.round((a/b) * 100) / 100;
-}
-
-function multiply(a, b){
-    return a*b;
-}
-
-function operate(operator, firstNumber, secondNumber){
-    switch (operator){
-        case '+':
-            displayValue = Math.round((add(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            //firstNumber = displayValue;
-            isItAProduct = 1;
-            break;
-        case '-':
-            displayValue = Math.round((substract(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            //firstNumber = displayValue;
-            isItAProduct = 1;
-            break;
-        case '/':
-            displayValue = Math.round((divide(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            //firstNumber = displayValue;
-            isItAProduct = 1;
-            break;
-        case '*':
-            displayValue = Math.round((multiply(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            //firstNumber = displayValue;
-            isItAProduct = 1;
-            break;
-    }
-
-}
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    audio.play();
+  });
+});
 
 const btn0 = document.getElementById("btn0");
 const btn1 = document.getElementById("btn1");
@@ -69,18 +28,13 @@ const btn8 = document.getElementById("btn8");
 const btn9 = document.getElementById("btn9");
 const btnDec = document.getElementById(".");
 
-
-function displayNum(num){
-    equBtn.disabled = false;
-    if(isItAProduct){
-        display.innerText = '';
-        firstNumber = displayValue;
-        isItAProduct = 0;
-    }
-    display.innerText += num;
-    displayValue = parseFloat(display.innerText);
-}
-
+const addBtn = document.getElementById("+");
+const subBtn = document.getElementById("-");
+const devBtn = document.getElementById("/");
+const mulBtn = document.getElementById("*");
+const equBtn = document.getElementById("=");
+const delBtn = document.getElementById("delete");
+const cleBtn = document.getElementById("clear");
 
 
 btn0.addEventListener("click", () => {
@@ -123,6 +77,70 @@ btn9.addEventListener("click", () => {
     displayNum(9);
 })
 
+
+function add(a, b){
+    return a + b;
+}
+
+function substract(a, b){
+    return a - b;
+}
+
+function divide(a, b){
+    if(b===0){
+        alert("You can't devide by 0!");
+        return a;
+    }
+    return Math.round((a/b) * 100) / 100;
+}
+
+function multiply(a, b){
+    return a*b;
+}
+
+function operate(operator, firstNumber, secondNumber){
+    switch (operator){
+        case '+':
+            displayValue = Math.round((add(firstNumber, secondNumber)) * 100) / 100;
+            display.innerText = displayValue;
+            lastFirst = firstNumber;
+            isItAProduct = 1;
+            break;
+        case '-':
+            displayValue = Math.round((substract(firstNumber, secondNumber)) * 100) / 100;
+            display.innerText = displayValue;
+            lastFirst = firstNumber;
+            isItAProduct = 1;
+            break;
+        case '/':
+            displayValue = Math.round((divide(firstNumber, secondNumber)) * 100) / 100;
+            display.innerText = displayValue;
+            lastFirst = firstNumber;
+            isItAProduct = 1;
+            break;
+        case '*':
+            displayValue = Math.round((multiply(firstNumber, secondNumber)) * 100) / 100;
+            display.innerText = displayValue;
+            lastFirst = firstNumber;
+            isItAProduct = 1;
+            break;
+    }
+
+}
+
+
+function displayNum(num){
+    equBtn.disabled = false;
+    if(isItAProduct){
+        display.innerText = '';
+        firstNumber = displayValue;
+        isItAProduct = 0;
+    }
+    display.innerText += num;
+    displayValue = parseFloat(display.innerText);
+}
+
+
 btnDec.addEventListener("click", () => {
     if(!btnDec.disabled){
         displayNum('.');
@@ -133,13 +151,6 @@ btnDec.addEventListener("click", () => {
     }
 })
 
-const addBtn = document.getElementById("+");
-const subBtn = document.getElementById("-");
-const devBtn = document.getElementById("/");
-const mulBtn = document.getElementById("*");
-const equBtn = document.getElementById("=");
-const delBtn = document.getElementById("delete");
-const cleBtn = document.getElementById("clear");
 
 delBtn.addEventListener("click", () => {
     display.innerText = display.innerText.slice(0, -1);
@@ -148,6 +159,12 @@ delBtn.addEventListener("click", () => {
 
 addBtn.addEventListener("click", () => {
     btnDec.disabled = false;
+    if(counter && firstNumber == lastFirst){
+        secondNumber = parseFloat(display.innerText);
+        firstNumber = parseFloat(display.innerText);
+        operate(operator, firstNumber, secondNumber);
+        return
+    }
     display.innerText = '';
     if(operator!='+' && counter>0){
         secondNumber = displayValue;
@@ -157,7 +174,6 @@ addBtn.addEventListener("click", () => {
     else if(counter){
         secondNumber = displayValue;
         operate('+', firstNumber, secondNumber);
-
     }
     else{
         operator = '+';
@@ -167,8 +183,14 @@ addBtn.addEventListener("click", () => {
 })
 
 subBtn.addEventListener("click", () => {
-    display.innerText = '';
     btnDec.disabled = false;
+    if(counter && firstNumber == lastFirst){
+        secondNumber = parseFloat(display.innerText);
+        firstNumber = parseFloat(display.innerText);
+        operate(operator, firstNumber, secondNumber);
+        return
+    }
+    display.innerText = '';
     if(operator!='-' && counter>0){
         secondNumber = displayValue;
         operate(operator, firstNumber, secondNumber);
@@ -187,6 +209,13 @@ subBtn.addEventListener("click", () => {
 })
 
 devBtn.addEventListener("click", () => {
+    btnDec.disabled = false;
+    if(counter && firstNumber == lastFirst){
+        secondNumber = parseFloat(display.innerText);
+        firstNumber = parseFloat(display.innerText);
+        operate(operator, firstNumber, secondNumber);
+        return
+    }
     display.innerText = '';
     if(operator!='/' && counter>0){
         secondNumber = displayValue;
@@ -206,6 +235,13 @@ devBtn.addEventListener("click", () => {
 })
 
 mulBtn.addEventListener("click", () => {
+    btnDec.disabled = false;
+    if(counter && firstNumber == lastFirst){
+        secondNumber = parseFloat(display.innerText);
+        firstNumber = parseFloat(display.innerText);
+        operate(operator, firstNumber, secondNumber);
+        return
+    }
     display.innerText = '';
     if(operator!='*' && counter>0){
         secondNumber = displayValue;
@@ -238,12 +274,3 @@ cleBtn.addEventListener("click", () => {
     secondNumber = 0;
     displayValue = 0;
 })
-
-const audio = new Audio("meow.mp3");
-const buttons = document.querySelectorAll("button");
-
-buttons.forEach(button => {
-  button.addEventListener("click", () => {
-    audio.play();
-  });
-});
