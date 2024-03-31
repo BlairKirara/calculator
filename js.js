@@ -3,6 +3,7 @@ const btnEqual = document.getElementById("=");
 btnEqual.disabled = true;
 const btnDecimal = document.getElementById(".");
 btnDecimal.disabled = true;
+const btnDelete = document.getElementById("delete");
 
 const display = document.querySelector(".display");
 const buttonsNum = document.querySelectorAll(".numButton");
@@ -134,4 +135,8 @@ btnEqual.addEventListener("click", () => {
     display.innerText = sum;
     isItProduct = true;
     secondNumber = 'end';
+})
+
+btnDelete.addEventListener("click", () => {
+    display.innerText = display.innerText.slice(0,-1);
 })
