@@ -1,11 +1,18 @@
+const btnClear = document.getElementById("clear");
+const btnEqual = document.getElementById("=");
+btnEqual.disabled = true;
+const btnDecimal = document.getElementById(".");
+btnDecimal.disabled = true;
+
+const display = document.querySelector(".display");
+const buttonsNum = document.querySelectorAll(".numButton");
+const buttonsOperator = document.querySelectorAll(".operatorButtons")
+
+let sum;
+let firstTime = true;
 let operator;
-let firstNumber = 0;
-let secondNumber = 0;
-let display = document.querySelector(".display");
-let displayValue = 0;
-let counter = 0;
-let isItAProduct = 0;
-let lastFirst;
+let secondNumber;
+let isItProduct = false;
 
 const audio = new Audio("meow.mp3");
 const buttons = document.querySelectorAll("button");
@@ -16,266 +23,114 @@ buttons.forEach(button => {
   });
 });
 
-const btn0 = document.getElementById("btn0");
-const btn1 = document.getElementById("btn1");
-const btn2 = document.getElementById("btn2");
-const btn3 = document.getElementById("btn3");
-const btn4 = document.getElementById("btn4");
-const btn5 = document.getElementById("btn5");
-const btn6 = document.getElementById("btn6");
-const btn7 = document.getElementById("btn7");
-const btn8 = document.getElementById("btn8");
-const btn9 = document.getElementById("btn9");
-const btnDec = document.getElementById(".");
-
-const addBtn = document.getElementById("+");
-const subBtn = document.getElementById("-");
-const devBtn = document.getElementById("/");
-const mulBtn = document.getElementById("*");
-const equBtn = document.getElementById("=");
-const delBtn = document.getElementById("delete");
-const cleBtn = document.getElementById("clear");
-
-
-btn0.addEventListener("click", () => {
-    displayNum(0);
-})
-
-btn1.addEventListener("click", () => {
-    displayNum(1);
-})
-
-btn2.addEventListener("click", () => {
-    displayNum(2);
-})
-
-btn3.addEventListener("click", () => {
-    displayNum(3);
-})
-
-btn4.addEventListener("click", () => {
-    displayNum(4);
-})
-
-btn5.addEventListener("click", () => {
-    displayNum(5);
-})
-
-btn6.addEventListener("click", () => {
-    displayNum(6);
-})
-
-btn7.addEventListener("click", () => {
-    displayNum(7);
-})
-
-btn8.addEventListener("click", () => {
-    displayNum(8);
-})
-
-btn9.addEventListener("click", () => {
-    displayNum(9);
-})
 
 
 function add(a, b){
-    return a + b;
+    return Math.round((a + b)*100)/100;
 }
 
 function substract(a, b){
-    return a - b;
-}
-
-function divide(a, b){
-    if(b===0){
-        alert("You can't devide by 0!");
-        return a;
-    }
-    return Math.round((a/b) * 100) / 100;
+    return Math.round((a - b)*100)/100;
 }
 
 function multiply(a, b){
-    return a*b;
+    return Math.round((a * b)*100)/100;
+}
+
+function divide(a, b){
+    return Math.round((a / b)*100)/100;
 }
 
 function operate(operator, firstNumber, secondNumber){
     switch (operator){
         case '+':
-            displayValue = Math.round((add(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            lastFirst = firstNumber;
-            isItAProduct = 1;
+            return add(firstNumber, secondNumber);
             break;
         case '-':
-            displayValue = Math.round((substract(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            lastFirst = firstNumber;
-            isItAProduct = 1;
-            break;
-        case '/':
-            displayValue = Math.round((divide(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            lastFirst = firstNumber;
-            isItAProduct = 1;
+            return substract(firstNumber, secondNumber);
             break;
         case '*':
-            displayValue = Math.round((multiply(firstNumber, secondNumber)) * 100) / 100;
-            display.innerText = displayValue;
-            lastFirst = firstNumber;
-            isItAProduct = 1;
+            return multiply(firstNumber, secondNumber);
+            break;
+        case '/':
+            if(secondNumber===0){
+                alert("You can't devide by 0!");
+                return firstNumber;
+            }
+            return divide(firstNumber, secondNumber);
             break;
     }
-
 }
 
+buttonsNum.forEach(function (button) {
+    button.addEventListener('click', function() {
+        if(!display.innerText.includes('.')){
+            btnDecimal.disabled = false;
+        }
+        if(secondNumber == 'end'){
+            display.innerText = '';
+            btnEqual.disabled = false; 
+            secondNumber = 'beginning';
+        }
+      display.innerText += button.innerText;
+      secondNumber = parseFloat(display.innerText);
+    });
+  });
 
-function displayNum(num){
-    equBtn.disabled = false;
-    if(isItAProduct){
-        display.innerText = '';
-        firstNumber = displayValue;
-        isItAProduct = 0;
-    }
-    display.innerText += num;
-    displayValue = parseFloat(display.innerText);
-}
-
-
-btnDec.addEventListener("click", () => {
-    if(!btnDec.disabled){
-        displayNum('.');
-        btnDec.disabled = true;
-    }
-    else{
+btnDecimal.addEventListener('click', function(){
+    if(btnDecimal.disabled){
         return
     }
-})
-
-
-delBtn.addEventListener("click", () => {
-    display.innerText = display.innerText.slice(0, -1);
-    displayValue = parseFloat(display.innerText);
-})
-
-addBtn.addEventListener("click", () => {
-    btnDec.disabled = false;
-    if(counter && firstNumber == lastFirst){
-        operator = '+';
-        secondNumber = parseFloat(display.innerText);
-        firstNumber = parseFloat(display.innerText);
-        operate(operator, firstNumber, secondNumber);
-        return
-    }
-    display.innerText = '';
-    if(operator!='+' && counter>0){
-        secondNumber = displayValue;
-        operate(operator, firstNumber, secondNumber);
-        operator = '+';
-     }
-    else if(counter){
-        secondNumber = displayValue;
-        operate('+', firstNumber, secondNumber);
-    }
     else{
-        operator = '+';
-        firstNumber = displayValue;
-        counter++;
+        display.innerText += btnDecimal.innerText;
+        btnDecimal.disabled = true;
     }
 })
 
-subBtn.addEventListener("click", () => {
-    btnDec.disabled = false;
-    if(counter && firstNumber == lastFirst){
-        operator = '-';
-        secondNumber = parseFloat(display.innerText);
-        firstNumber = parseFloat(display.innerText);
-        operate(operator, firstNumber, secondNumber);
-        return
-    }
+  buttonsOperator.forEach(function (button) {
+    button.addEventListener('click', function() {
+        btnDecimal.disabled = false;
+        if(isItProduct == true){
+            operator = button.innerText;
+            display.innerText += ` ${operator}`;
+            isItProduct = false;
+            return;
+        }
+        if(secondNumber == 'end'){
+            operator = button.innerText;
+            display.innerText = display.innerText.slice(0, -2);
+            display.innerText += ` ${operator}`;
+            return;
+        }
+        if(firstTime){
+            firstTime = false;
+            operator = button.innerText;
+            sum = parseFloat(display.innerText);
+            secondNumber = 'end';
+        }
+        else{           
+            secondNumber = parseFloat(display.innerText);
+            sum = operate(operator, sum, secondNumber);
+            operator = button.innerText;
+            display.innerText = sum + ` ${operator}`;
+            secondNumber = 'end';            
+        }
+    });
+  });
+
+btnClear.addEventListener("click", () => {
     display.innerText = '';
-    if(operator!='-' && counter>0){
-        secondNumber = displayValue;
-        operate(operator, firstNumber, secondNumber);
-        operator = '-';
-     }
-    else if(counter){
-        secondNumber = displayValue;
-        operate('-', firstNumber, secondNumber);
-
-    }
-    else{
-        operator = '-';
-        firstNumber = displayValue;
-        counter++;
-    }
-})
-
-devBtn.addEventListener("click", () => {
-    btnDec.disabled = false;
-    if(counter && firstNumber == lastFirst){
-        operator = '/';
-        secondNumber = parseFloat(display.innerText);
-        firstNumber = parseFloat(display.innerText);
-        operate(operator, firstNumber, secondNumber);
-        return
-    }
-    display.innerText = '';
-    if(operator!='/' && counter>0){
-        secondNumber = displayValue;
-        operate(operator, firstNumber, secondNumber);
-        operator = '/';
-     }
-    else if(counter){
-        secondNumber = displayValue;
-        operate('/', firstNumber, secondNumber);
-
-    }
-    else{
-        operator = '/';
-        firstNumber = displayValue;
-        counter++;
-    }
-})
-
-mulBtn.addEventListener("click", () => {
-    btnDec.disabled = false;
-    if(counter && firstNumber == lastFirst){
-        operator = '*';
-        secondNumber = parseFloat(display.innerText);
-        firstNumber = parseFloat(display.innerText);
-        operate(operator, firstNumber, secondNumber);
-        return
-    }
-    display.innerText = '';
-    if(operator!='*' && counter>0){
-        secondNumber = displayValue;
-        operate(operator, firstNumber, secondNumber);
-        operator = '*';
-     }
-    else if(counter){
-        secondNumber = displayValue;
-        operate('*', firstNumber, secondNumber);
-
-    }
-    else{
-        operator = '*';
-        firstNumber = displayValue;
-        counter++;
-    }
-})
-
-equBtn.addEventListener("click", () => {
-    secondNumber = displayValue;
-    operate(operator, firstNumber, secondNumber);
-    equBtn.disabled = true;
-    counter = 0;
-})
-
-cleBtn.addEventListener("click", () => {
-    display.innerText = '';
+    sum = '';
+    secondNumber = '';
     operator = '';
-    firstNumber = 0;
-    secondNumber = 0;
-    displayValue = 0;
-    counter = 0;
+    firstTime = true;
+    btnDecimal.disabled = true;
+})
+
+btnEqual.addEventListener("click", () => {
+    btnEqual.disabled = true;
+    sum = operate(operator, sum, secondNumber);
+    display.innerText = sum;
+    isItProduct = true;
+    secondNumber = 'end';
 })
