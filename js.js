@@ -67,7 +67,7 @@ buttonsNum.forEach(function (button) {
         if(!display.innerText.includes('.')){
             btnDecimal.disabled = false;
         }
-        if(secondNumber == 'end'){
+        if(secondNumber == 'end' || isItProduct){
             display.innerText = '';
             btnEqual.disabled = false; 
             secondNumber = 'beginning';
@@ -113,7 +113,8 @@ btnDecimal.addEventListener('click', function(){
             sum = operate(operator, sum, secondNumber);
             operator = button.innerText;
             display.innerText = sum + ` ${operator}`;
-            secondNumber = 'end';            
+            secondNumber = 'end';    
+            btnEqual.disabled = true;        
         }
     });
   });
