@@ -108,6 +108,7 @@ btnDecimal.addEventListener('click', function(){
             firstTime = false;
             operator = button.innerText;
             sum = parseFloat(display.innerText);
+            display.innerText = `${sum} ${operator}`;
             secondNumber = 'end';
         }
         else{           
