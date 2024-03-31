@@ -72,6 +72,7 @@ buttonsNum.forEach(function (button) {
             display.innerText = '';
             btnEqual.disabled = false; 
             btnDelete.disabled = false;
+            isItProduct = false;
             secondNumber = 'beginning';
         }
       display.innerText += button.innerText;
