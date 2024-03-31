@@ -71,6 +71,7 @@ buttonsNum.forEach(function (button) {
         if(secondNumber == 'end' || isItProduct){
             display.innerText = '';
             btnEqual.disabled = false; 
+            btnDelete.disabled = false;
             secondNumber = 'beginning';
         }
       display.innerText += button.innerText;
@@ -138,5 +139,10 @@ btnEqual.addEventListener("click", () => {
 })
 
 btnDelete.addEventListener("click", () => {
-    display.innerText = display.innerText.slice(0,-1);
+    if(display.innerText.includes('+') || display.innerText.includes('-') || display.innerText.includes('*') || display.innerText.includes('/')){
+        btnDelete.disabled = true;
+    }
+    else{
+        display.innerText = display.innerText.slice(0,-1);
+    }
 })
